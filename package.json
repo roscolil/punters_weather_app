@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "react": "^16.4.0",
-    "react-dom": "^16.4.0"
+    "react-dom": "^16.4.0",
+    "react-modal": "^3.5.1"
   }
 }
