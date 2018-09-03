@@ -1,7 +1,7 @@
 import React from 'react'
 import Modal from 'react-modal';
 
-
+const API = "http://dnu5embx6omws.cloudfront.net/venues/weather.json";
 const customStyles = {
   content : {
     top                   : '50%',
@@ -20,9 +20,9 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.inputChange = this.inputChange.bind(this);
-    this.clickSearch = this.clickSearch.bind(this);
-    this.distanceChange = this.distanceChange.bind(this);
-    this.sortChange = this.sortChange.bind(this);
+    this.sortAlpha = this.sortAlpha.bind(this);
+    this.sortTemp = this.sortTemp.bind(this);
+    this.sortLastUpdated = this.sortLastUpdated.bind(this);
 
     // this.state = {
     //   cuisine: '',
@@ -39,37 +39,59 @@ export default class App extends React.Component {
 
     this.state = {
       data: null,
+      name: "",
+      temp: "",
+      lastUpdated: 0,
+      country: "",
+      weatherCond: ""
     };
 
     this.state = {
       modalIsOpen: true
     };
-
-
   }
 
 
   openModal() {
-    this.setState({modalIsOpen: true});
-  }
-
-  inputChange(e) {
     this.setState({
-      cuisine: e.target.value
-    })
+      modalIsOpen: true
+    });    
   }
 
-  clickSearch() {
+  // inputChange(e) {
+  //   this.setState({
+  //     cuisine: e.target.value
+  //   })
+  // }
+
+  sortAlpha() {
     this.setState({
-      operation: 'Getting location...'
-    })
+      name: //ascending in alphabetical order
+    });
   }
 
+  sortTemp() {
+    this.setState({
+      temp: //descending in temp
+    });
+  }
+
+  sortLastUpdated() {
+    this.setState({
+      lastUpdated: //ascending in time order
+    });
+  }
 
   componentDidMount() {
-    fetch('http://dnu5embx6omws.cloudfront.net/venues/weather.json')
+    fetch(API)
       .then(response => response.json())
-      .then(data => this.setState({ data }));
+      .then(data => this.setState({
+        name: data._name,
+        temp: data._weatherTemp,
+        lastUpdated: data._weatherLastUpdated,
+        country: data._country._name,
+        weatherCond: data._weatherCondition
+      }));
   }
 
 
@@ -113,10 +135,11 @@ export default class App extends React.Component {
   }
 
   render() {
-    const results = this.state.nearbyRestaurants
-    const distanceList = this.state.distance
-    const sortList = this.state.sort
-    const cuisineInput = this.state.cuisine
+    const name = this.state.name
+    const temp = this.state.temp
+    const lastUpdated = this.state.lastUpdated
+    const country = this.state.country
+    const weatherCond = this.state.weatherCond
 
     return (
 
@@ -135,6 +158,13 @@ export default class App extends React.Component {
             </div>
           </header>
           <main>
+            <ul>
+              <li>{name}</li>
+              <li>{temp}</li>
+              <li>{lastUpdated}</li>
+              <li>{country}</li>
+              <li>{weatherCond}</li>
+            </ul>
 
           </main>
             <div>
