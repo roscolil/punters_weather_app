@@ -6,18 +6,40 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.sortAlpha = this.sortAlpha.bind(this);
-    this.sortTemp = this.sortTemp.bind(this);
-    this.sortLastUpdated = this.sortLastUpdated.bind(this);
+    // this.sortAlpha = this.sortAlpha.bind(this);
+    // this.sortTemp = this.sortTemp.bind(this);
+    // this.sortLastUpdated = this.sortLastUpdated.bind(this);
+    this.filterChange = this.filterChange.bind(this);
 
     this.state = {
-      data: null,
+      data: [],
       name: "",
       temp: "",
       lastUpdated: 0,
       country: "",
-      weatherCond: ""
+      weatherCond: "",
     };
+  }
+
+  componentDidMount() {
+    fetch(API, {
+      method: "GET",
+      headers: {
+        "Access-Control-Allow-Origin": "*"
+      }
+    })
+    .then(response => response.json())
+    .then(resData => {this.setState({
+      results: data,
+      name: resData._name,
+      temp: resData._weatherTemp,
+      lastUpdated: resData._weatherLastUpdated,
+      country: resData._country._name,
+      weatherCond: resData._weatherCondition
+    })})
+    .catch(function(error) {
+      console.log('Request failed', error);
+    });
   }
 
   // sortAlpha() {
@@ -38,19 +60,14 @@ export default class App extends React.Component {
   //   });
   // }
 
-  componentDidMount() {
-    fetch(API)
-      .then(response => response.json())
-      .then(data => this.setState({
-        name: data._name,
-        temp: data._weatherTemp,
-        lastUpdated: data._weatherLastUpdated,
-        country: data._country._name,
-        weatherCond: data._weatherCondition
-      }));
+  filterChange(e) {
+    this.setState({
+      filter: e.target.value
+    })
   }
 
   render() {
+    const results = this.state.data
     const name = this.state.name
     const temp = this.state.temp
     const lastUpdated = this.state.lastUpdated
@@ -58,33 +75,43 @@ export default class App extends React.Component {
     const weatherCond = this.state.weatherCond
 
     return (
-        <div>
-          <header>
-            <div className="header__div">
-              <h1>Weather App</h1>
-              <button className="search__btn" onClick={this.clickSelection}>A-Z</button>
-              <button className="search__btn" onClick={this.clickSelection}>Temperature</button>
-              <button className="search__btn" onClick={this.clickSelection}>Last Updated</button>
+      <div className="container">
+        <header>
+          <div className="header__div">
+            <h1>Weather App</h1>
+            <button className="search__btn" onClick={this.sortAlpha}>A-Z</button>
+            <button className="search__btn" onClick={this.sortTemp}>Temperature</button>
+            <button className="search__btn" onClick={this.sortLastUpdated}>Last Updated</button>
+          </div>
+        </header>
+        <main>
+          <div className="select__box">
+            <div className="filter">
+              <label>Filter</label>
+              <select value={this.state.filter} onChange={this.filterChange}>
+                <option value="country">Country</option>
+                <option value="weather">Weather</option>
+              </select>
             </div>
-          </header>
-          <main>
-            { results.map(function(resultObj, index) {
-              let item = resultObj.restaurant
-              return (
-                <div className="row" key={index}>
-                  <div className="details">
-                    <p>Name: <span>{item.name}</span></p>
-                    <p>Country: <span>{item.country}</span></p>
-                    <p>Temp: <span>{item.temp}</span></p>
-                    <p>Weather Conditions: <span>{item.weatherCond}</span></p>
-                    <p>Last Updated: <span>{item.lastUpdated}</span></p>
-                  </div>
+          </div>
+
+          { results.map(function(resultObj, index) {
+            let item = resultObj;
+            return (
+              <div className="row" key={index}>
+                <div className="details">
+                  <p>Name: <span>{item.name}</span></p>
+                  <p>Country: <span>{item.country}</span></p>
+                  <p>Temp: <span>{item.temp}</span></p>
+                  <p>Weather Conditions: <span>{item.weatherCond}</span></p>
+                  <p>Last Updated: <span>{item.lastUpdated}</span></p>
                 </div>
-                )
+              </div>
+              )
             })
           }
-          </main>
-        </div>
+        </main>
+      </div>
     )
   }
 }

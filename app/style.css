@@ -1,21 +1,13 @@
 body {
-background-image: url(bg.jpg);
+background-image: url(bg.png);
 background-size: cover;
 background-attachment: fixed;
 }
 
 h1 {
-  margin-bottom: 10px;
-}
-.search__btn {
-  font-size: 15px;
-}
-
-.more__btn {
-  font-size: 15px;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-left: 10px;
+  margin: 10px 0;
+  font-weight: 600;
+  color: #4bb748;
 }
 
 header {
@@ -25,50 +17,33 @@ header {
 }
 
 main {
-  color: white;
-}
+  color: #4bb748;
 
-/* .search__results {
-  background-color: black;
-  opacity: 0.5;
-} */
+}
 
 .header__div {
-  width: 400px;
+  width: 70%;
 }
 
-.progress_msg {
-  color: #9c04bb;
-  font-size: 19px;
-  font-weight: bold;
+.search__btn {
+  margin: 5px;
+  background-color: #4bb748;
+  border: 1px solid #4bb748;
+}
+
+.select__box {
   text-align: center;
-  margin: 5px 0 15px 0;
+  width: 120px;
+  margin: 7px auto;
 }
 
-.number__of__results {
+.select__box select {
+  color: #4bb748;
+  border: 1px solid #4bb748;
+}
+
+.filter label {
   font-size: 20px;
-  font-weight: bold;
-  margin-left: 50px;
-}
-
-#cuisine__field {
-  width: 400px;
-  height: 40px;
-  font-size: 20px;
-}
-
-.select__boxes {
-  display: flex;
-  text-align: left;
-  justify-content: space-between;
-}
-
-.distance__box {
-  width: 150px;
-}
-
-.sort__box {
-  width: 150px;
 }
 
 .row {
@@ -84,6 +59,12 @@ main {
   font-weight: normal;
 }
 
-.image {
-  margin-left: 20px;
+.container {
+  width: 70%;
+  height: 700px;
+  margin-top: 5%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgba(255,255,255,0.8);
+  border: 1px solid white;
 }
