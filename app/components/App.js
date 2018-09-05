@@ -22,21 +22,16 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch(API, {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Origin": "*"
-      }
-    })
+    fetch(API)
     .then(response => response.json())
-    .then(resData => {this.setState({
-      results: data,
-      name: resData._name,
-      temp: resData._weatherTemp,
-      lastUpdated: resData._weatherLastUpdated,
-      country: resData._country._name,
-      weatherCond: resData._weatherCondition
-    })})
+    .then(resData => this.setState({
+      data: resData.data,
+      name: resData.data[0]["_name"],
+      temp: resData.data[0]["_weatherTemp"],
+      lastUpdated: resData.data[0]["_weatherLastUpdated"],
+      country: resData.data[0]["_country"]["_name"],
+      weatherCond: resData.data[0]["_weatherCondition"]
+    }))
     .catch(function(error) {
       console.log('Request failed', error);
     });
@@ -67,12 +62,12 @@ export default class App extends React.Component {
   }
 
   render() {
-    const results = this.state.data
-    const name = this.state.name
-    const temp = this.state.temp
-    const lastUpdated = this.state.lastUpdated
-    const country = this.state.country
-    const weatherCond = this.state.weatherCond
+    let results = this.state.data
+    let name = this.state.name
+    let temp = this.state.temp
+    let lastUpdated = this.state.lastUpdated
+    let country = this.state.country
+    let weatherCond = this.state.weatherCond
 
     return (
       <div className="container">
@@ -94,22 +89,23 @@ export default class App extends React.Component {
               </select>
             </div>
           </div>
-
-          { results.map(function(resultObj, index) {
-            let item = resultObj;
-            return (
-              <div className="row" key={index}>
-                <div className="details">
-                  <p>Name: <span>{item.name}</span></p>
-                  <p>Country: <span>{item.country}</span></p>
-                  <p>Temp: <span>{item.temp}</span></p>
-                  <p>Weather Conditions: <span>{item.weatherCond}</span></p>
-                  <p>Last Updated: <span>{item.lastUpdated}</span></p>
+          <div className="search__results">
+            { results.map(function(resultObj, index) {
+              let item = resultObj;
+              return (
+                <div className="row" key={index}>
+                  <div className="details">
+                    <p>Name: <span>{item.name}</span></p>
+                    <p>Country: <span>{item.country}</span></p>
+                    <p>Temp: <span>{item.temp}</span></p>
+                    <p>Weather Conditions: <span>{item.weatherCond}</span></p>
+                    <p>Last Updated: <span>{item.lastUpdated}</span></p>
+                  </div>
                 </div>
-              </div>
-              )
-            })
-          }
+                )
+              })
+            }
+          </div>
         </main>
       </div>
     )
