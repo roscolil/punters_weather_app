@@ -6,18 +6,13 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props);
-    // this.sortAlpha = this.sortAlpha.bind(this);
-    // this.sortTemp = this.sortTemp.bind(this);
-    // this.sortLastUpdated = this.sortLastUpdated.bind(this);
-    this.filterChange = this.filterChange.bind(this);
+    this.sortButtonChange = this.sortButtonChange.bind(this);
+    this.filterSelectChange = this.filterSelectChange.bind(this);
 
     this.state = {
       data: [],
-      name: "",
-      temp: "",
-      lastUpdated: 0,
-      country: "",
-      weatherCond: "",
+      sort: "",
+      filter: ""
     };
   }
 
@@ -32,27 +27,16 @@ export default class App extends React.Component {
     });
   }
 
-  sortAlpha(e) {
+  sortButtonChange(e) {
     this.setState({
-      name: e.target.value  //ascending in alphabetical order
+      sort: e.target.value        // Show selected results (alphabetical, temp, last updated)
     });
   }
 
-  sortTemp(e) {
-    this.setState({
-      temp: e.target.value //descending in temp
-    });
-  }
 
-  sortLastUpdated(e) {
+  filterSelectChange(e) {
     this.setState({
-      lastUpdated: e.target.value //ascending in time order
-    });
-  }
-
-  filterChange(e) {
-    this.setState({
-      filter: e.target.value
+      filter: e.target.value     // Filter results by country/weather conditions
     })
   }
 
@@ -64,21 +48,21 @@ export default class App extends React.Component {
         <header>
           <div className="header__div">
             <h1>Weather App</h1>
-            <button className="search__btn" onClick={this.sortAlpha}>A-Z</button>
-            <button className="search__btn" onClick={this.sortTemp}>Temperature</button>
-            <button className="search__btn" onClick={this.sortLastUpdated}>Last Updated</button>
+            <button className="search__btn" value="alpha" onClick={this.sortButtonChange}>A-Z</button>
+            <button className="search__btn" value="temp" onClick={this.sortButtonChange}>Temperature</button>
+            <button className="search__btn" value="recent" onClick={this.sortButtonChange}>Last Updated</button>
+            <div className="select__box">
+              <div className="filter">
+                <label>Filter</label>
+                <select value={this.state.filter} onChange={this.filterSelectChange}>
+                  <option value="country">Country</option>
+                  <option value="weather">Weather</option>
+                </select>
+              </div>
+            </div>
           </div>
         </header>
         <main>
-          <div className="select__box">
-            <div className="filter">
-              <label>Filter</label>
-              <select value={this.state.filter} onChange={this.filterChange}>
-                <option value="country">Country</option>
-                <option value="weather">Weather</option>
-              </select>
-            </div>
-          </div>
           <div className="search__results">
             { results.map(function(resultObj, index) {
               let item = resultObj
