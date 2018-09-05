@@ -26,34 +26,29 @@ export default class App extends React.Component {
     .then(response => response.json())
     .then(resData => this.setState({
       data: resData.data,
-      name: resData.data[0]["_name"],
-      temp: resData.data[0]["_weatherTemp"],
-      lastUpdated: resData.data[0]["_weatherLastUpdated"],
-      country: resData.data[0]["_country"]["_name"],
-      weatherCond: resData.data[0]["_weatherCondition"]
     }))
     .catch(function(error) {
       console.log('Request failed', error);
     });
   }
 
-  // sortAlpha() {
-  //   this.setState({
-  //     name: //ascending in alphabetical order
-  //   });
-  // }
-  //
-  // sortTemp() {
-  //   this.setState({
-  //     temp: //descending in temp
-  //   });
-  // }
-  //
-  // sortLastUpdated() {
-  //   this.setState({
-  //     lastUpdated: //ascending in time order
-  //   });
-  // }
+  sortAlpha(e) {
+    this.setState({
+      name: e.target.value  //ascending in alphabetical order
+    });
+  }
+
+  sortTemp(e) {
+    this.setState({
+      temp: e.target.value //descending in temp
+    });
+  }
+
+  sortLastUpdated(e) {
+    this.setState({
+      lastUpdated: e.target.value //ascending in time order
+    });
+  }
 
   filterChange(e) {
     this.setState({
@@ -63,11 +58,6 @@ export default class App extends React.Component {
 
   render() {
     let results = this.state.data
-    let name = this.state.name
-    let temp = this.state.temp
-    let lastUpdated = this.state.lastUpdated
-    let country = this.state.country
-    let weatherCond = this.state.weatherCond
 
     return (
       <div className="container">
@@ -91,15 +81,15 @@ export default class App extends React.Component {
           </div>
           <div className="search__results">
             { results.map(function(resultObj, index) {
-              let item = resultObj;
+              let item = resultObj
               return (
                 <div className="row" key={index}>
                   <div className="details">
-                    <p>Name: <span>{item.name}</span></p>
-                    <p>Country: <span>{item.country}</span></p>
-                    <p>Temp: <span>{item.temp}</span></p>
-                    <p>Weather Conditions: <span>{item.weatherCond}</span></p>
-                    <p>Last Updated: <span>{item.lastUpdated}</span></p>
+                    <p>Name: <span>{item["_name"]}</span></p>
+                    <p>Country: <span>{item["_country"]["_name"]}</span></p>
+                    <p>Temp: <span>{item["_weatherTemp"]}</span></p>
+                    <p>Weather Conditions: <span>{item["_weatherCondition"]}</span></p>
+                    <p>Last Updated: <span>{item["_weatherLastUpdated"]}</span></p>
                   </div>
                 </div>
                 )
