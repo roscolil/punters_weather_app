@@ -20,11 +20,14 @@ main {
   display: flex;
   justify-content: center;
   color: #4bb748;
-
+  margin-top: 25%;
+  overflow: scroll;
+  height: 550px;
 }
 
 .header__div {
-  width: 70%;
+  width: 100%;
+  position: fixed;
 }
 
 .search__btn {
@@ -65,8 +68,8 @@ main {
 }
 
 .container {
-  width: 70%;
-  height: 700px;
+  width: 75%;
+  height: 800px;
   margin-top: 5%;
   margin-left: auto;
   margin-right: auto;
